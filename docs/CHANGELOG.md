@@ -176,3 +176,57 @@ local static mirror, not from the platform. Canonicals, `og:url` and `sitemap.xm
 in `src/data/site.json` must change and the sitemap rebuild with it. `_reference/` (9,850,925 B of
 Stitch exports) is committed on `feature_merge`; it stays out of the Pages artifact but not out of the
 repository.
+
+## 2026-11-22 — GitHub Pages trial: the pre-rendered links never carried the deploy base
+
+`origin` is `github.com/onmony/shahfinance`, so `.gitlab-ci.yml` can never run against it, and the
+drafted `.github/workflows/deploy-pages.yml` becomes the deploy path. Preparing that run exposed that
+the 2026-11-21 subpath work fixed the client router and left the build-time router alone.
+
+### Fixed
+- `src/App.tsx` - `StaticRoute`'s `<MemoryRouter>` had no `basename`, so every pre-rendered anchor was
+  emitted base-less (`href="/about"`), which on a project site is `https://onmony.github.io/about` ->
+  404. Crawlers and any click before hydration take the attribute, so this is a live defect, not
+  cosmetic. 2026-11-21 missed it because its browser pass *clicked* links, and `navigate()` does not
+  read `href`.
+- `src/App.tsx` - adding that `basename` then killed the build at `prerender.mjs:93` (`/: route
+  rendered to 0 characters`): `MemoryRouter` matches `initialEntries` against `basename` verbatim, so
+  `/` and `/about` no longer matched and React returned an empty tree. Entries now carry the prefix.
+- `scripts/check_dist.mjs` could not see either problem: its ref pattern required a file extension,
+  and a page link has none.
+- `scripts/prerender.mjs` - `og:image` and `twitter:image` were the only two absolute head tags the
+  pre-render step did not rewrite, so they stayed frozen at whatever `index.html` says while every
+  other URL followed `siteUrl`. They are now derived from it.
+- `src/data/site.json` - `siteUrl` -> `https://onmony.github.io/shahfinance`, per the owner's decision
+  that Pages is the trial host rather than a preview of another domain. `docs/assumptions.md` items 1
+  and 6 updated. Item 1's "nothing else references an absolute URL" was already false before this
+  change: `public/robots.txt` did, and its `Sitemap:` line was updated to match.
+
+### Gate changes
+- Every root-absolute `src`/`href` must sit under the base read back from the emitted module ref, and
+  resolve either to a file or to a `<route>/index.html` - Pages has no SPA fallback, so an anchor with
+  no document behind it is a genuine 404. The site-root link is accepted without its trailing slash
+  because that is what react-router emits for `to="/"`.
+- Sitemap `<loc>` paths must fall inside the base, which is what stops `siteUrl` and `VITE_BASE` from
+  drifting apart unnoticed now that they name the host in two files.
+
+### Falsifications
+- 134 page anchors rewritten base-less in a copy of `dist` -> `check:dist` exit 1, 134 problems.
+- `sitemap.xml` rewritten without the `/shahfinance` prefix -> exit 1, 7 `outside the deploy base`.
+- Clean build at `VITE_BASE=/shahfinance/`: **8 documents | 0 problems**, 237 root-absolute refs across
+  8 documents with 0 outside the base, `check:placeholders` unchanged at `distinct=8 total=66`,
+  `lint_site --profile finance --strict` -> **8 pages | 0 errors | 0 warnings**.
+- Mirror at one level above the project path: `/shahfinance/` 200, `/shahfinance/about` 301 ->
+  `/shahfinance/about/` 200 with the About `<title>`, `canonical` and `h1`, assets 200 with correct
+  content types, `/shahfinance/sitemap.xml` 200 `text/xml`.
+- First attempt at that build failed for a shell reason, not a code one: MSYS converted the exported
+  `VITE_BASE=/shahfinance/` into `C:/Program Files/Git/shahfinance/`. `MSYS_NO_PATHCONV=1` (or
+  `MSYS2_ENV_CONV_EXCL=VITE_BASE`) is required in Git Bash. Unlike 2026-11-21 this announced itself -
+  `route rendered to 0 characters` - because the prerender length floor refuses to write a short body.
+
+### Not verified here
+Nothing has been pushed and Pages is not enabled yet: `gh` in this workspace is unauthenticated, and
+Settings -> Pages -> Source has to be switched to "GitHub Actions" in the web UI. The 301-on-directory
+and 404-status behaviours are GitHub's, reproduced only against a local mirror. `robots.txt` served
+from a project path is inert, because crawlers ask `onmony.github.io/robots.txt`, which is not ours.
+`.gitlab-ci.yml` is still on this branch and still cannot run - removal is the owner's call.

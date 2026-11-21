@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.shahfin.com/sitemap.xml
+Sitemap: https://onmony.github.io/shahfinance/sitemap.xml

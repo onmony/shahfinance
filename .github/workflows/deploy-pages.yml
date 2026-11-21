@@ -1,0 +1,54 @@
+# GitHub Pages. `npm run build` emits dist/<route>/index.html plus dist/404.html, dist/sitemap.xml
+# and dist/robots.txt, so Pages serves every route as a real document and unknown paths fall through
+# to 404.html with a genuine HTTP 404. Pages has no SPA fallback to configure, which is fine: none of
+# these routes needs one.
+name: Deploy Pages
+
+on:
+  push:
+    branches: [feature_merge, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # A project site on the shared domain lives at /<repo>/ ; a custom domain or a <user>.github.io
+      # root needs "/". Set the repository variable VITE_BASE to override, e.g. when a domain is added.
+      VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
+      # Public by construction: it is compiled into the shipped bundle. URL only, never a key.
+      VITE_ENQUIRY_ENDPOINT: ${{ vars.VITE_ENQUIRY_ENDPOINT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run check:dist
+      - run: npm run check:placeholders
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,7 +1,8 @@
 /**
  * Gate check for the pre-rendered output in dist/: one JSON-LD graph per indexable
  * route, valid JSON, unique title/description/canonical, no AggregateRating, no dead
- * href="#", every referenced local asset present under the deploy base. Run after `npm run build`.
+ * href="#", every root-absolute ref and sitemap url under the deploy base and resolving
+ * to a real file or document. Run after `npm run build`.
  */
 import { readFileSync, existsSync, globSync } from "node:fs";
 import { join } from "node:path";
@@ -12,6 +13,7 @@ const docs = [...globSync(`${ROOT}/**/index.html`), `${ROOT}/404.html`].filter(e
 const problems = [];
 const titles = new Map();
 const descriptions = new Map();
+let deployBase = null;
 
 for (const doc of docs) {
   const html = readFileSync(doc, "utf8");
@@ -53,17 +55,32 @@ for (const doc of docs) {
     if (!/\balt="[^"]+"/.test(img[0])) problems.push(`${doc}: <img> without alt: ${img[0].slice(0, 80)}`);
   }
 
-  // Local asset refs must all sit under the deploy base the bundle uses, and resolve on disk.
-  const assetRefs = [...html.matchAll(/\b(?:src|href)="(\/[^"]*\.(?:js|css|svg|png|jpe?g|webp))(?:\?[^"]*)?"/g)].map((m) => m[1]);
-  const moduleRef = assetRefs.find((u) => u.endsWith(".js"));
-  if (!moduleRef) {
+  // Every root-absolute ref must sit under the deploy base the bundle actually uses, and
+  // resolve to a real document or file. The base is read back out of the emitted module ref,
+  // so a build that ignored VITE_BASE fails here instead of shipping links that 404 on a
+  // project site. Page links get an index.html check because Pages has no SPA fallback.
+  const localRefs = [...html.matchAll(/\s(?:src|href)="(\/[^"#?]*)/g)].map((m) => m[1]);
+  const moduleRef = localRefs.find((u) => /\/assets\/[^"?]+\.js$/.test(u));
+  const base = moduleRef ? moduleRef.match(/^(.*\/)assets\//)[1] : null;
+  if (!base) {
     problems.push(`${doc}: no local module script ref to read the deploy base from`);
   } else {
-    const base = moduleRef.match(/^(.*\/)assets\//)?.[1] ?? "/";
-    if (!base.startsWith("/") || /\s/.test(base)) problems.push(`${doc}: deploy base "${base}" is not a URL path`);
-    for (const ref of assetRefs) {
-      if (!ref.startsWith(base)) problems.push(`${doc}: "${ref}" is missing the deploy base "${base}"`);
-      else if (!existsSync(join(ROOT, ref.slice(base.length - 1)))) problems.push(`${doc}: "${ref}" missing in ${ROOT}`);
+    if (deployBase && deployBase !== base) {
+      problems.push(`${doc}: deploy base "${base}" differs from "${deployBase}" used earlier`);
+    }
+    deployBase ??= base;
+    for (const ref of localRefs) {
+      // A link to the site root renders as the base without its trailing slash, which is what
+      // react-router emits for to="/" and what Pages redirects to the base.
+      if (ref !== base.slice(0, -1) && !ref.startsWith(base)) {
+        problems.push(`${doc}: "${ref}" is missing the deploy base "${base}"`);
+        continue;
+      }
+      const rel = ref.slice(base.length - 1).replace(/^\//, "");
+      const target = rel
+        ? join(ROOT, /\.(?:js|css|svg|png|jpe?g|webp)$/.test(rel) ? rel : join(rel, "index.html"))
+        : join(ROOT, "index.html");
+      if (!existsSync(target)) problems.push(`${doc}: "${ref}" has no file at ${target}`);
     }
   }
 
@@ -106,7 +123,14 @@ if (!existsSync(sitemapPath)) {
   const urls = [...readFileSync(sitemapPath, "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   for (const url of urls) {
     const route = new URL(url).pathname;
-    const file = route === "/" ? join(ROOT, "index.html") : join(ROOT, route.replace(/^\//, ""), "index.html");
+    // siteUrl in src/data/site.json carries the same prefix as the build base, so a sitemap
+    // path outside the base means the two have drifted apart.
+    if (deployBase && !route.startsWith(deployBase)) {
+      problems.push(`sitemap url ${url} is outside the deploy base ${deployBase}`);
+      continue;
+    }
+    const local = route.slice((deployBase?.length ?? 1) - 1) || "/";
+    const file = local === "/" ? join(ROOT, "index.html") : join(ROOT, local.replace(/^\//, ""), "index.html");
     if (!existsSync(file)) problems.push(`sitemap lists ${route} but ${file} is missing`);
   }
   console.log(`sitemap.xml: ${urls.length} urls`);

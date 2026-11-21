@@ -78,6 +78,8 @@ function applyPage(html, route) {
     { tag: "meta", attr: "property", key: "og:title", value: page.title },
     { tag: "meta", attr: "property", key: "og:description", value: page.description },
     { tag: "meta", attr: "property", key: "og:url", value: url },
+    { tag: "meta", attr: "property", key: "og:image", value: absoluteUrl("/img/og-image.jpg") },
+    { tag: "meta", attr: "name", key: "twitter:image", value: absoluteUrl("/img/og-image.jpg") },
     { tag: "meta", attr: "name", key: "twitter:title", value: page.title },
     { tag: "meta", attr: "name", key: "twitter:description", value: page.description },
     { tag: "link", attr: "rel", key: "canonical", value: url },

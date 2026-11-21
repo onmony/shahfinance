@@ -53,8 +53,11 @@ export default function App() {
 
 /** Used by the build-time renderer: one static document per route, same tree as the client. */
 export function StaticRoute({ path }: { path: string }) {
+  // MemoryRouter matches initialEntries against basename verbatim, so an entry that omits the
+  // prefix renders nothing. The client needs no equivalent step: its URL already carries it.
+  const entry = basename === "/" ? path : `${basename}${path}`;
   return (
-    <MemoryRouter initialEntries={[path]}>
+    <MemoryRouter basename={basename} initialEntries={[entry]}>
       <ScrollToTop />
       <Seo />
       <AppShell />
