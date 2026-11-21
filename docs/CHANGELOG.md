@@ -120,7 +120,59 @@ zero `href="#"`.
 Browser (final bundle): 0 console messages on `/contact/` load and after client-side navigation to
 `/about`; head values (title, description, canonical, `og:title`, `og:url`) and nav `aria-current`
 all follow the route without a reload. Empty submit → 5 `role="alert"` messages and focus moved to
-`#enq-name`. DeskCoverage clock renders `19:00 IST` client-side with no hydration mismatch. No
+`#enq-name`. The DeskCoverage clock fills client-side with no hydration mismatch (this line used to read
+`renders 19:00 IST`, corrected in the entry below). No
 horizontal overflow: `scrollWidth` 1272 at 1280px, 352–359 at 360px.
 Lighthouse is not installed here (`npx --no-install lighthouse` → missing), so page weight is
 reported above instead, and 3 remote Google font families remain a known cost.
+
+## 2026-11-21 — GitLab Pages deploy support (subpath-safe build)
+
+### Changed
+- `vite.config.ts` - `base` is derived from `CI_PAGES_URL` (`VITE_BASE` overrides it), so one build is
+  correct both at a domain root and under `https://<namespace>.gitlab.io/shahfinance/`.
+- `src/App.tsx` - `<BrowserRouter basename>` from `import.meta.env.BASE_URL`. Without it every route
+  resolves one level above the project path.
+- `src/pages/Home.tsx` - the hero image was `src="/img/hero-panel.svg"`. Vite prefixes only the refs it
+  rewrites inside `index.html`, never a URL typed in JSX, so under a subpath the hero 404s. It is now
+  `` `${import.meta.env.BASE_URL}img/hero-panel.svg` `` - byte-identical at root.
+- `.gitlab-ci.yml` (new) - `node:24`, then `npm ci` / typecheck / lint / build / `check:dist` /
+  `check:placeholders`; `pages: { publish: dist }` (the GitLab >= 17.9 form; the legacy `pages` job with
+  a `public` artifact is not used). Runs on `feature_merge` and the default branch.
+- `docs/assumptions.md` item 6 - the hosting assumption now names GitLab Pages instead of "a static host
+  that must be configured to return `404.html`", which is the open decision it was waiting on.
+
+### Added to `scripts/check_dist.mjs`
+Local asset refs in every document must sit under the base the bundle itself uses and resolve on disk;
+a base with no leading slash, or with whitespace in it, is a failure on its own. Three falsifications,
+each of which the gate before this change passed silently:
+- a build whose `VITE_BASE` was mangled to `C:/Program Files/Git/shahfinance/` by MSYS path conversion
+  -> `1 problem: "/img/hero-panel.svg" is missing the deploy base`;
+- `dist/img/hero-panel.svg` moved out of the way -> `1 problem: missing in dist`;
+- correct builds at base `/` and at base `/shahfinance/` -> `0 problems` each.
+
+### Verification, base = `/shahfinance/` (`CI_PAGES_URL=https://ashwinshah.gitlab.io/shahfinance`)
+`typecheck`, `lint`, `build`, `check:dist`, `check:placeholders` all exit 0; **8 documents | 0
+problems**; placeholders unchanged at `distinct=8 total=66 documents=8`.
+`vite preview` cannot verify a subpath build: with a non-root `base` it answers *every* request -
+including `/shahfinance/assets/index-*.js` and `/shahfinance/sitemap.xml` - with `dist/index.html`
+(200, `text/html`). That is how the mangled build first looked like a pass. `dist/` was served instead
+by a static mirror rooted one level above the project path: `/shahfinance/about` -> 301 -> `/about/` ->
+200 with the About title; `/contact/`, `/resources/` likewise; assets 200 as `text/javascript` /
+`text/css`; `sitemap.xml` 200 `text/xml`; unknown path 404.
+Browser at `http://127.0.0.1:4199/shahfinance/`: hero `currentSrc` = `/shahfinance/img/hero-panel.svg`;
+nav click -> `/shahfinance/about` with the About title, `h1` "A desk built on objectivity and
+discipline." and `aria-current` on `/about`, then `/shahfinance/contact` with the form and
+`mailto:contact@shahfin.com`; a deep load of `/shahfinance/about/` hydrates and navigates back to
+`/shahfinance`; **0 console messages**.
+Root-base regression build (no env, `base=/`): refs stay `/assets/index-*.js` and `/img/hero-panel.svg`,
+`check:dist` -> 0 problems, `lint_site.py dist --profile finance --strict` ->
+**8 pages | 0 errors | 0 warnings | 66 [placeholders]**.
+
+### Not verified here
+Nothing has been pushed to GitLab, so the Pages status codes above come from its documentation and a
+local static mirror, not from the platform. Canonicals, `og:url` and `sitemap.xml` still point at
+`https://www.shahfin.com` on purpose while Pages is a preview host; if Pages becomes the home, `siteUrl`
+in `src/data/site.json` must change and the sitemap rebuild with it. `_reference/` (9,850,925 B of
+Stitch exports) is committed on `feature_merge`; it stays out of the Pages artifact but not out of the
+repository.

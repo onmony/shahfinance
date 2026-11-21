@@ -1,7 +1,7 @@
 /**
  * Gate check for the pre-rendered output in dist/: one JSON-LD graph per indexable
  * route, valid JSON, unique title/description/canonical, no AggregateRating, no dead
- * href="#", every referenced local asset present. Run after `npm run build`.
+ * href="#", every referenced local asset present under the deploy base. Run after `npm run build`.
  */
 import { readFileSync, existsSync, globSync } from "node:fs";
 import { join } from "node:path";
@@ -51,8 +51,20 @@ for (const doc of docs) {
   const images = [...html.matchAll(/<img\b[^>]*>/g)];
   for (const img of images) {
     if (!/\balt="[^"]+"/.test(img[0])) problems.push(`${doc}: <img> without alt: ${img[0].slice(0, 80)}`);
-    const src = img[0].match(/\bsrc="([^"]+)"/)?.[1] ?? "";
-    if (src.startsWith("/") && !existsSync(join(ROOT, src))) problems.push(`${doc}: <img src="${src}"> missing in ${ROOT}`);
+  }
+
+  // Local asset refs must all sit under the deploy base the bundle uses, and resolve on disk.
+  const assetRefs = [...html.matchAll(/\b(?:src|href)="(\/[^"]*\.(?:js|css|svg|png|jpe?g|webp))(?:\?[^"]*)?"/g)].map((m) => m[1]);
+  const moduleRef = assetRefs.find((u) => u.endsWith(".js"));
+  if (!moduleRef) {
+    problems.push(`${doc}: no local module script ref to read the deploy base from`);
+  } else {
+    const base = moduleRef.match(/^(.*\/)assets\//)?.[1] ?? "/";
+    if (!base.startsWith("/") || /\s/.test(base)) problems.push(`${doc}: deploy base "${base}" is not a URL path`);
+    for (const ref of assetRefs) {
+      if (!ref.startsWith(base)) problems.push(`${doc}: "${ref}" is missing the deploy base "${base}"`);
+      else if (!existsSync(join(ROOT, ref.slice(base.length - 1)))) problems.push(`${doc}: "${ref}" missing in ${ROOT}`);
+    }
   }
 
   const dead = (html.match(/href="#"/g) ?? []).length;

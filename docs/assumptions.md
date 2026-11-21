@@ -19,9 +19,14 @@ Anything here that turns out to be wrong is a content bug, not a code bug. Order
    phone and WhatsApp links are treated as the same conversion, not competing CTAs.
 5. **No Gen-AI chatbot is in scope.** Phase 6 of the method was skipped by decision, so the
    chatbot checks in the verification gate are not applicable rather than failed.
-6. **Hosting is static.** The build emits real files (`dist/<route>/index.html`), so the host only
-   needs to serve them. It must also be told that `404.html` is the error document and must return
-   HTTP 404 for unknown paths — a static file cannot set its own status code.
+6. **Hosting is GitLab Pages** (see `.gitlab-ci.yml`). The build emits real files
+   (`dist/<route>/index.html`), and Pages serves them as-is: `/about` redirects to `/about/` and
+   then answers `about/index.html`, and an unknown path gets `dist/404.html` with a real HTTP 404
+   (both per Pages documentation; the codes are unobserved until the first push),
+   so no SPA fallback rewrite is configured. Any other host must still be pointed at
+   `404.html` itself - a static file cannot set its own status code. The asset prefix comes
+   from `CI_PAGES_URL`, so either `https://<host>/` (unique or custom domain) or
+   `https://<namespace>.gitlab.io/shahfinance/` (shared domain) is assumed.
 7. **Enquiries go out by `mailto:` unless `VITE_ENQUIRY_ENDPOINT` is configured.** The form does not
    claim delivery in that mode: it says "Nothing has reached us until you do". Wiring the Zoho/inbox
    endpoint is an owner task; when it is set, the success panel only appears on an HTTP 2xx.

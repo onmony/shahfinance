@@ -99,7 +99,7 @@ export default function Home() {
             <div className="relative animate-fade-in hidden lg:block">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/img/hero-panel.svg"
+                  src={`${import.meta.env.BASE_URL}img/hero-panel.svg`}
                   width={800}
                   height={600}
                   alt="Illustrative compounding curve for a systematic investment plan, labelled as an illustration and not a return projection"
