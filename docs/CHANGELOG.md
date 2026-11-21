@@ -224,9 +224,21 @@ the 2026-11-21 subpath work fixed the client router and left the build-time rout
   `MSYS2_ENV_CONV_EXCL=VITE_BASE`) is required in Git Bash. Unlike 2026-11-21 this announced itself -
   `route rendered to 0 characters` - because the prerender length floor refuses to write a short body.
 
+### GitLab retired, same day
+Once Pages was confirmed as the target rather than a second host to mirror to, `.gitlab-ci.yml` was
+deleted and `pagesBase()` in `vite.config.ts` collapsed to `VITE_BASE` (still padded to a trailing
+slash), so nothing in the tree implies a GitLab deploy any more. Re-verified at
+`VITE_BASE=/shahfinance/`: 8 documents | 0 problems.
+
+The same tree built with `VITE_BASE` unset now **fails** the gate - 8 documents | 7 problems, exit 1 -
+and that is the intended behaviour, not a regression. Every emitted ref correctly falls back to
+`/about`, but `siteUrl` still carries the `/shahfinance` prefix, so all seven sitemap `<loc>` entries
+name documents that are not in the artifact. The earlier claim that a root build "still reproduces"
+was written before it was run. The rule this makes explicit: `VITE_BASE` and `siteUrl` describe the same
+prefix, so a root or custom-domain deploy changes both.
+
 ### Not verified here
 Nothing has been pushed and Pages is not enabled yet: `gh` in this workspace is unauthenticated, and
 Settings -> Pages -> Source has to be switched to "GitHub Actions" in the web UI. The 301-on-directory
 and 404-status behaviours are GitHub's, reproduced only against a local mirror. `robots.txt` served
 from a project path is inert, because crawlers ask `onmony.github.io/robots.txt`, which is not ours.
-`.gitlab-ci.yml` is still on this branch and still cannot run - removal is the owner's call.

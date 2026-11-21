@@ -23,16 +23,19 @@ Anything here that turns out to be wrong is a content bug, not a code bug. Order
    phone and WhatsApp links are treated as the same conversion, not competing CTAs.
 5. **No Gen-AI chatbot is in scope.** Phase 6 of the method was skipped by decision, so the
    chatbot checks in the verification gate are not applicable rather than failed.
-6. **The deploy path is GitHub Pages via `.github/workflows/deploy-pages.yml`.** `origin` is
-   `github.com/onmony/shahfinance`, so the `.gitlab-ci.yml` on this branch can never execute; it is
-   kept only until the owner decides to drop it. The build emits real files
+6. **The deploy path is GitHub Pages via `.github/workflows/deploy-pages.yml`** (`origin` is
+   `github.com/onmony/shahfinance`; the GitLab pipeline written on 2026-11-21 can never run against
+   that remote, so `.gitlab-ci.yml` has been removed and `base` no longer reads `CI_PAGES_URL`).
+   The build emits real files
    (`dist/<route>/index.html`), and Pages serves them as-is: `/about` redirects to `/about/` and
    then answers `about/index.html`, and an unknown path gets `dist/404.html` with a real HTTP 404
    (both per Pages documentation; the codes are unobserved until the first push),
    so no SPA fallback rewrite is configured. Any other host must still be pointed at
    `404.html` itself - a static file cannot set its own status code. The asset prefix comes from
    `VITE_BASE`, which the workflow derives from the repository name (`/shahfinance/`); a custom
-   domain or a `onmony.github.io` root site needs the `VITE_BASE` repository variable set to `/`.
+   domain or a `onmony.github.io` root site needs the `VITE_BASE` repository variable set to `/`
+   **and** `siteUrl` in `src/data/site.json` reduced to the bare origin - `check:dist` fails the
+   combination, because the sitemap would then name documents outside the artifact.
 7. **Enquiries go out by `mailto:` unless `VITE_ENQUIRY_ENDPOINT` is configured.** The form does not
    claim delivery in that mode: it says "Nothing has reached us until you do". Wiring the Zoho/inbox
    endpoint is an owner task; when it is set, the success panel only appears on an HTTP 2xx.
