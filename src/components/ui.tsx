@@ -81,7 +81,7 @@ interface PillProps {
 
 export function Pill({ children, icon }: PillProps) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-fixed/40 border border-primary-fixed-dim/30 text-primary text-body-sm font-medium">
+    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-fixed/70 border border-primary-fixed-dim/30 text-primary text-body-sm font-medium">
       {icon && <span className="material-symbols-outlined text-[18px]">{icon}</span>}
       {children}
     </span>

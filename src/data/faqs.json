@@ -1,0 +1,82 @@
+{
+  "nri": [
+    {
+      "question": "NRE vs NRO: Which account should I use for mutual funds?",
+      "answer": "Use an NRE (Non-Resident External) account if you are investing foreign income that you want to freely repatriate overseas at any time without tax in India. Choose an NRO (Non-Resident Ordinary) account if your capital originates from Indian earnings like rental income, pensions, or local asset sales. While NRO investments can also be repatriated abroad, they require standard chartered accountant certifications up to USD 1 million annually."
+    },
+    {
+      "question": "Tax and TDS: How are capital gains taxed for NRIs in India?",
+      "answer": "TDS (Tax Deducted at Source) is deducted automatically by Indian mutual fund houses at the applicable statutory rate whenever an NRI redeems units. However, because India maintains DTAA (Double Tax Avoidance Agreements) with major overseas jurisdictions, you can generally claim these Indian tax deductions as a foreign tax credit in your resident country. This framework prevents double taxation on your capital gains."
+    },
+    {
+      "question": "Repatriation: Can I take my money back out of India easily?",
+      "answer": "Yes, mutual fund investments funded through an NRE (Non-Resident External) account can be repatriated overseas freely directly through standard net banking. For proceeds routed through an NRO (Non-Resident Ordinary) account, FEMA (Foreign Exchange Management Act) allows outward remittance up to USD 1,000,000 per financial year. This NRO transfer requires Form 15CA and Form 15CB tax clearances, which we coordinate with your tax professional."
+    },
+    {
+      "question": "Country Restrictions: Can US or Canadian NRIs invest in Indian mutual funds?",
+      "answer": "Yes, US and Canadian NRIs can invest, but only with specific fund houses that accept investments under FATCA (Foreign Account Tax Compliance Act) and CRS (Common Reporting Standard) rules. Several major AMCs restrict North American residents, so we filter and guide you exclusively toward institutions with compliant onboarding processes. We also provide clear transaction documentation to help your local CPA file IRS or CRA declarations."
+    },
+    {
+      "question": "Remote Onboarding: Do I need to fly to Hyderabad to open accounts?",
+      "answer": "No in-person visit to Hyderabad is necessary. The entire onboarding process—including KYC (Know Your Customer) compliance, IPV (In-Person Verification via video call), and bank account linkage—is conducted digitally from abroad. You only need your valid passport, PAN (Permanent Account Number), foreign address verification, and an active NRE or NRO bank account."
+    },
+    {
+      "question": "Can NRIs legally invest in Indian mutual funds?",
+      "answer": "Yes, FEMA (Foreign Exchange Management Act) and SEBI (Securities and Exchange Board of India) permit NRIs, PIOs, and OCIs to invest in mutual funds. You can allocate funds on a repatriable basis through an NRE account or on a non-repatriable basis through an NRO account. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "NRE vs NRO vs FCNR accounts: which should I use for mutual funds?",
+      "answer": "You must use either an NRE (Non-Resident External) or NRO (Non-Resident Ordinary) rupee account, as investments cannot be debited directly from foreign-currency FCNR (Foreign Currency Non-Resident) deposits. Use an NRE account to maintain repatriation rights for your overseas earnings, or an NRO account to invest local Indian income like rents and dividends. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "What are the specific rules for NRIs residing in the USA and Canada?",
+      "answer": "US and Canada NRIs can invest only with selected AMCs (Asset Management Companies) that support FATCA (Foreign Account Tax Compliance Act) and CRS compliance. We steer you exclusively to compliant fund houses and supply the required capital gain statements for IRS or CRA reporting. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "How does TDS work for NRIs and how can I claim tax credits abroad?",
+      "answer": "TDS (Tax Deducted at Source) is withheld automatically by the AMC at statutory rates upon redemption, for which you receive a Form 16A certificate. Under DTAA (Double Tax Avoidance Agreements), you can use this certificate to claim foreign tax credits in your country of residence to offset local taxes. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "What is the step-by-step repatriation procedure under FEMA?",
+      "answer": "NRE redemption proceeds transfer directly back to your overseas account via net banking with zero documentation or RBI approvals. NRO proceeds require submitting Form 15CA and a chartered accountant's Form 15CB certification up to the USD 1,000,000 annual limit under FEMA (Foreign Exchange Management Act) guidelines. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "How does remote Aadhaar/Passport KYC work without physical presence in India?",
+      "answer": "Remote onboarding is completed through e-KYC and a digital IPV (In-Person Verification) video session from your smartphone. You will provide digital copies of your PAN, passport, overseas address document, and bank proof, with status verification typically finalized in 48 to 72 hours. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "Can you help coordinate my parents' living and medical expenses in Hyderabad?",
+      "answer": "Yes, we regularly design automated SWP (Systematic Withdrawal Plan) setups from an NRO portfolio that pay recurring monthly allowances into your parents' local bank account. This eliminates the necessity of manual foreign remittances each month while safeguarding living funds. Rules change; we confirm current requirements on your call."
+    },
+    {
+      "question": "What should I do with my Indian investments when I plan to return permanently to India?",
+      "answer": "Upon return, your residency shifts to RNOR (Resident but Not Ordinarily Resident), requiring your bank to redesignate NRE accounts to resident or RFC status. Existing mutual fund investments continue without triggering taxable liquidations by updating your residential status with the fund houses. Rules change; we confirm current requirements on your call."
+    }
+  ],
+  "regulatory": [
+    {
+      "question": "What is your regulatory standing and registration status?",
+      "answer": "Shah Financial is an AMFI-registered mutual fund distributor based in Begumpet, Hyderabad (ARN-[ARN 1], ARN-[ARN 2], EUIN [EUIN]). We distribute mutual fund schemes regulated by the Securities and Exchange Board of India (SEBI). We do not operate as a PMS or alternate investment broker, ensuring strict adherence to statutory retail and family distribution frameworks."
+    },
+    {
+      "question": "How is Shah Financial compensated for its mutual fund distribution services?",
+      "answer": "We receive regulatory trail commissions directly from Asset Management Companies (AMCs) out of the scheme's Total Expense Ratio (TER), as governed by SEBI rules. We never invoice clients for upfront onboarding reviews, introductory consultations, or portfolio health checks. There are zero advisory retainers or hidden billing fees."
+    },
+    {
+      "question": "Do you charge fees for analyzing our existing Consolidated Account Statement (CAS)?",
+      "answer": "No. Our initial Consolidated Account Statement (CAS) diagnostic is complimentary and confidential. We review your portfolio holdings across CAMS and KFintech to pinpoint duplicate schemes, category overlap, and expense drag without obligation to transact through our desk."
+    },
+    {
+      "question": "Can overseas NRIs consult with Shah Financial across different time zones?",
+      "answer": "Yes. We maintain dedicated early-morning and late-evening consultation hours specifically aligned with US (PST/EST), UK (GMT), UAE (GST), and Singapore time zones. All cross-border documentation and KYC compliance workflows are managed securely online, with physical appointments available at our Begumpet chambers whenever you visit Hyderabad."
+    },
+    {
+      "question": "What happens if I decide to redeem, switch, or transfer my mutual fund folios?",
+      "answer": "Your investments are held in your own name, in your own folios, at all times. There are no lock-ins, exit penalties, or restrictions imposed by our firm. You can redeem, switch, pause Systematic Investment Plans (SIPs), or move to another distributor directly through AMC portals, CAMS, or KFintech whenever you choose."
+    },
+    {
+      "question": "How do I schedule an in-person consultation at your Begumpet chambers?",
+      "answer": "You can schedule a 20-minute intro call or in-person visit through our direct Begumpet telephone desk (+91 98492 80280), message our WhatsApp line, or complete the enquiry form on our Contact page. Our physical advisory chambers are centrally situated at Metro Pillar C1315, 4th Floor, Durga Towers, Begumpet, Hyderabad."
+    }
+  ]
+}

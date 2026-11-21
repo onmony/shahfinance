@@ -1,45 +1,65 @@
 import { Link } from "react-router-dom";
 import Reveal from "@/components/Reveal";
+import JsonLd from "@/components/JsonLd";
 import { SectionHeader, ServiceCard, StatCard, Pill } from "@/components/ui";
+import { cta, org, placeholders, regulatory } from "@/data/facts";
 
 const services = [
   {
     icon: "account_balance",
     title: "Wealth Planning",
-    description: "Comprehensive financial planning tailored to your goals — from asset allocation to estate structuring.",
+    description: "A CAS-based portfolio health check of what you already hold, plus objective scheme selection with no product bias and no lock-ins.",
     path: "/wealth-planning",
   },
   {
     icon: "public",
     title: "NRI Investing",
-    description: "Cross-border investment strategies for Non-Resident Indians, navigating FEMA, taxation, and repatriation.",
+    description: "NRE and NRO account routing, FEMA repatriation steps, TDS and DTAA treatment, and remote KYC — explained for overseas residents.",
     path: "/nri-investing",
   },
   {
     icon: "savings",
     title: "Retirement Planning",
-    description: "Build a retirement corpus that lasts — with withdrawal strategies, pension planning, and healthcare buffers.",
+    description: "Corpus and SWP modelling with inflation and healthcare buffers, so the withdrawal plan is sized to last through retirement.",
     path: "/retirement",
   },
   {
     icon: "school",
     title: "Knowledge Hub",
-    description: "Guides, calculators, and insights to help you make informed financial decisions with confidence.",
+    description: "Answered questions on regulation, compensation and repatriation, plus the calculator and charter you can read before you call.",
     path: "/resources",
   },
 ];
 
 const processSteps = [
-  { num: "01", title: "Discovery", desc: "We start with a deep-dive conversation to understand your financial picture, goals, and risk tolerance." },
-  { num: "02", title: "Strategy", desc: "A customized wealth plan is built around your timeline, cash flow needs, and family objectives." },
-  { num: "03", title: "Implementation", desc: "We execute the plan with disciplined investment selection and seamless onboarding." },
-  { num: "04", title: "Ongoing Review", desc: "Quarterly reviews and continuous monitoring keep your plan aligned as life evolves." },
+  { num: "01", title: "Discovery", desc: "A 20-minute intro call to understand your goals, cash-flow needs, existing holdings and risk tolerance. No charge and no obligation to transact." },
+  { num: "02", title: "Diagnostics", desc: "We read your Consolidated Account Statement across CAMS and KFintech and flag duplicate schemes, category overlap and expense drag." },
+  { num: "03", title: "Implementation", desc: "You open or move folios through your own NRE, NRO or resident account. Remote KYC and IPV are completed digitally; we stay on the call with you." },
+  { num: "04", title: "Ongoing Review", desc: "Every folio stays in your own name. Reviews run on request, and you can redeem, switch or change distributor whenever you choose." },
 ];
 
-const insights = [
-  { tag: "Markets", title: "Why global diversification matters more in 2026", date: "Nov 2026", read: "6 min" },
-  { tag: "NRI", title: "FEMA compliance: A practical guide for NRIs", date: "Oct 2026", read: "8 min" },
-  { tag: "Retirement", title: "The 4% rule revisited for Indian retirees", date: "Oct 2026", read: "5 min" },
+const resources = [
+  {
+    tag: "Regulation",
+    title: "Who pays Shah Financial, and how much",
+    desc: "Our compensation model in plain terms: trail commission from the AMC, out of the scheme's expense ratio, with no client retainers.",
+    to: "/about#compensation",
+    icon: "receipt_long",
+  },
+  {
+    tag: "NRI",
+    title: "NRE vs NRO: which account should you use",
+    desc: "Repatriation rights, the USD 1 million NRO limit, and the Form 15CA and 15CB steps, answered directly.",
+    to: "/nri-investing#nri-faqs",
+    icon: "public",
+  },
+  {
+    tag: "Retirement",
+    title: "How large a corpus your expenses actually need",
+    desc: "The calculator models inflation to retirement and the withdrawal years after it, then shows the monthly SIP the gap implies.",
+    to: "/retirement#calculator",
+    icon: "calculate",
+  },
 ];
 
 export default function Home() {
@@ -51,14 +71,13 @@ export default function Home() {
         <div className="relative max-w-page mx-auto px-gutter-mobile md:px-gutter py-20 md:py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-up">
-              <Pill icon="auto_awesome">Fiduciary-First Advisory</Pill>
+              <Pill icon="verified_user">AMFI-Registered Distributor</Pill>
               <h1 className="font-headline text-headline-xl md:text-[64px] leading-[1.05] mt-6 mb-6">
-                Wealth built with <em className="text-secondary-container not-italic">discipline</em>, managed with <em className="text-secondary-container not-italic">care</em>.
+                Wealth built with <em className="text-secondary-container not-italic">discipline</em>, looked after with <em className="text-secondary-container not-italic">care</em>.
               </h1>
               <p className="text-body-lg text-primary-fixed-dim max-w-lg mb-8 leading-relaxed">
-                Shah Financial is a wealth planning and advisory firm serving professionals,
-                families, and NRIs. We help you build, protect, and transfer wealth with clarity
-                and confidence.
+                {org.description} We review what you already hold, explain every cost, and
+                stay product-neutral about which scheme you buy.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -66,7 +85,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 px-6 py-3.5 bg-secondary-container text-primary font-semibold rounded-full hover:bg-secondary-fixed-dim transition-all duration-300 hover:shadow-xl"
                 >
                   <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-                  Book a Consultation
+                  {cta.primary}
                 </Link>
                 <Link
                   to="/wealth-planning"
@@ -80,19 +99,21 @@ export default function Home() {
             <div className="relative animate-fade-in hidden lg:block">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1554224155-6726b9ff8772?w=800&h=600&fit=crop"
-                  alt="Financial planning dashboard"
+                  src="/img/hero-panel.svg"
+                  width={800}
+                  height={600}
+                  alt="Illustrative compounding curve for a systematic investment plan, labelled as an illustration and not a return projection"
                   className="w-full h-[480px] object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-surface rounded-xl shadow-xl p-5 max-w-[220px]">
+              <div className="absolute -bottom-6 -left-6 bg-surface rounded-xl shadow-xl p-5 max-w-[240px]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+                  <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+                    <span className="material-symbols-outlined text-primary text-[20px]">location_on</span>
                   </div>
                   <div>
-                    <div className="font-headline text-2xl font-semibold text-primary">₹500Cr+</div>
-                    <div className="text-body-sm text-on-surface-variant">Assets Advised</div>
+                    <div className="font-headline text-xl font-semibold text-primary">Begumpet, Hyderabad</div>
+                    <div className="text-body-sm text-on-surface-variant">{org.hours}</div>
                   </div>
                 </div>
               </div>
@@ -105,7 +126,12 @@ export default function Home() {
       <section className="bg-surface py-6 border-b border-outline-variant/15">
         <div className="max-w-page mx-auto px-gutter-mobile md:px-gutter">
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-on-surface-variant">
-            {["SEBI Registered Investment Adviser", "AMFI Registered", "15+ Years Experience", "Fiduciary Standard"].map((item) => (
+            {[
+              "AMFI-registered mutual fund distributor",
+              "Product-neutral scheme selection",
+              "Trail-commission transparency",
+              "Remote NRI onboarding (KYC + IPV)",
+            ].map((item) => (
               <div key={item} className="flex items-center gap-2 text-body-sm">
                 <span className="material-symbols-outlined text-secondary text-[18px]">verified</span>
                 {item}
@@ -119,11 +145,14 @@ export default function Home() {
       <section className="py-16 md:py-20 bg-surface">
         <div className="max-w-page mx-auto px-gutter-mobile md:px-gutter">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <Reveal><StatCard value="₹500Cr+" label="Assets Advised" /></Reveal>
-            <Reveal delay={100}><StatCard value="250+" label="Families Served" /></Reveal>
-            <Reveal delay={200}><StatCard value="15+" label="Years Experience" /></Reveal>
-            <Reveal delay={300}><StatCard value="98%" label="Client Retention" /></Reveal>
+            <Reveal><StatCard value="AMFI" label="Registered Distributor" /></Reveal>
+            <Reveal delay={100}><StatCard value="Begumpet" label="Hyderabad Advisory Desk" /></Reveal>
+            <Reveal delay={200}><StatCard value={placeholders.aum} label="Assets Under Distribution" /></Reveal>
+            <Reveal delay={300}><StatCard value={placeholders.familiesServed} label="Families Served" /></Reveal>
           </div>
+          <p className="text-regulatory-legal text-on-surface-variant text-center mt-8 max-w-2xl mx-auto">
+            {placeholders.note}
+          </p>
         </div>
       </section>
 
@@ -133,7 +162,7 @@ export default function Home() {
           <Reveal>
             <SectionHeader
               eyebrow="What We Do"
-              title={<>Comprehensive wealth management, <em className="text-secondary not-italic">tailored to you</em></>}
+              title={<>What the desk does, <em className="text-secondary not-italic">day to day</em></>}
               subtitle="From growing your wealth to protecting it for the next generation, we provide end-to-end financial guidance."
               align="center"
             />
@@ -165,7 +194,7 @@ export default function Home() {
                   <div className="absolute -left-[11px] top-0 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
                     <span className="text-on-secondary text-[10px] font-bold">{i + 1}</span>
                   </div>
-                  <div className="font-headline text-3xl text-secondary/40 font-semibold mb-2">{step.num}</div>
+                  <div className="font-headline text-3xl text-secondary/75 font-semibold mb-2">{step.num}</div>
                   <h3 className="font-headline text-headline-sm text-primary mb-2">{step.title}</h3>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">{step.desc}</p>
                 </div>
@@ -175,36 +204,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonial / Quote */}
+      {/* Charter statement */}
       <section className="py-16 md:py-24 bg-primary text-on-primary">
         <div className="max-w-3xl mx-auto px-gutter-mobile md:px-gutter text-center">
           <Reveal>
-            <span className="material-symbols-outlined text-secondary-container text-5xl mb-6">format_quote</span>
+            <span className="material-symbols-outlined text-secondary-container text-5xl mb-6">gavel</span>
             <blockquote className="font-headline text-headline-lg md:text-headline-xl leading-tight mb-8">
-              "Shah Financial helped us consolidate decades of scattered investments into a
-              coherent plan. For the first time, we feel genuinely in control of our financial future."
+              "Your investments are held in your own name, in your own folios, at all times. There
+              are no lock-ins, exit penalties, or restrictions imposed by our firm."
             </blockquote>
             <div className="flex items-center justify-center gap-4">
               <div className="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
-                <span className="font-headline text-primary font-semibold">R</span>
+                <span className="font-headline text-primary font-semibold">S</span>
               </div>
               <div className="text-left">
-                <div className="font-semibold">Rajesh &amp; Meera Patel</div>
-                <div className="text-body-sm text-primary-fixed-dim">Clients since 2018 · Mumbai</div>
+                <div className="font-semibold">Shah Financial regulatory charter</div>
+                <Link to="/about#regulatory-charter" className="text-body-sm text-secondary-fixed hover:underline">
+                  Read the full charter and our compensation model
+                </Link>
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Insights preview */}
+      {/* Answers and tools preview */}
       <section className="py-16 md:py-24 bg-surface">
         <div className="max-w-page mx-auto px-gutter-mobile md:px-gutter">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-12">
             <Reveal>
               <SectionHeader
-                eyebrow="Knowledge Hub"
-                title={<>Latest <em className="text-secondary not-italic">insights</em></>}
+                eyebrow="Answers, Not Teasers"
+                title={<>Read the <em className="text-secondary not-italic">working documents</em></>}
               />
             </Reveal>
             <Link to="/resources" className="text-secondary font-medium text-body-sm flex items-center gap-1.5 hover:gap-2.5 transition-all">
@@ -212,18 +243,16 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {insights.map((post, i) => (
-              <Reveal key={post.title} delay={i * 100}>
-                <Link to="/resources" className="group block card-lift bg-surface-container-lowest border border-outline-variant/20 rounded-xl overflow-hidden h-full">
+            {resources.map((item, i) => (
+              <Reveal key={item.title} delay={i * 100}>
+                <Link to={item.to} className="group block card-lift bg-surface-container-lowest border border-outline-variant/20 rounded-xl overflow-hidden h-full">
                   <div className="h-40 bg-gradient-to-br from-primary-container to-tertiary flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary-fixed text-4xl opacity-50">article</span>
+                    <span className="material-symbols-outlined text-primary-fixed text-4xl opacity-60">{item.icon}</span>
                   </div>
                   <div className="p-6">
-                    <span className="text-label-md uppercase text-secondary">{post.tag}</span>
-                    <h3 className="font-headline text-headline-sm text-primary mt-2 mb-3 group-hover:text-secondary transition-colors">{post.title}</h3>
-                    <div className="flex items-center gap-3 text-body-sm text-on-surface-variant">
-                      <span>{post.date}</span><span>·</span><span>{post.read} read</span>
-                    </div>
+                    <span className="text-label-md uppercase text-secondary">{item.tag}</span>
+                    <h3 className="font-headline text-headline-sm text-primary mt-2 mb-3 group-hover:text-secondary transition-colors">{item.title}</h3>
+                    <p className="text-body-md text-on-surface-variant leading-relaxed">{item.desc}</p>
                   </div>
                 </Link>
               </Reveal>
@@ -248,11 +277,20 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-on-primary font-semibold rounded-full hover:bg-primary-fixed-dim transition-all duration-300 hover:shadow-xl"
             >
               <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-              Book Your Consultation
+              {cta.primary}
             </Link>
+            <p className="text-body-sm text-on-surface-variant mt-5">
+              Or call the Begumpet desk on{" "}
+              <a href={`tel:${org.phoneTel}`} className="text-secondary font-medium hover:underline">
+                {org.phoneDisplay}
+              </a>{" "}
+              · {regulatory.disclaimer}
+            </p>
           </Reveal>
         </div>
       </section>
+
+      <JsonLd path="/" breadcrumb="Home" />
     </div>
   );
 }

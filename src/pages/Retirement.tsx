@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Reveal from "@/components/Reveal";
 import { SectionHeader, Pill } from "@/components/ui";
+import JsonLd from "@/components/JsonLd";
 import { Link } from "react-router-dom";
+import { cta, regulatory } from "@/data/facts";
 
 const retirementStages = [
-  { icon: "rocket_launch", title: "Accumulation (25–45)", desc: "Aggressive growth phase. Maximize equity exposure, build emergency cushion, start SIPs early." },
+  { icon: "rocket_launch", title: "Accumulation (25–45)", desc: "Longest horizon. A higher equity weight usually suits this phase — build the emergency cushion and start SIPs early." },
   { icon: "trending_up", title: "Transition (45–55)", desc: "Begin de-risking. Shift toward balanced funds, increase retirement contributions, plan healthcare." },
   { icon: "savings", title: "Pre-Retirement (55–60)", desc: "Capital preservation. Move to debt-heavy allocation, finalize withdrawal strategy, optimize pension." },
   { icon: "beach_access", title: "Retirement (60+)", desc: "Income generation. Systematic withdrawals, annuity laddering, inflation-protected income streams." },
@@ -61,7 +63,7 @@ export default function Retirement() {
       </section>
 
       {/* Calculator */}
-      <section className="py-16 md:py-24 bg-surface">
+      <section id="calculator" className="py-16 md:py-24 bg-surface scroll-mt-[var(--header-height)]">
         <div className="max-w-page mx-auto px-gutter-mobile md:px-gutter">
           <Reveal>
             <SectionHeader
@@ -80,34 +82,42 @@ export default function Retirement() {
                 <div className="space-y-6">
                   <div>
                     <div className="flex justify-between text-body-sm text-on-surface-variant mb-2">
-                      <span>Current Age</span><span className="font-semibold text-primary">{currentAge} years</span>
+                      <span id="calc-age-label">Current Age</span><span className="font-semibold text-primary">{currentAge} years</span>
                     </div>
                     <input type="range" min={25} max={55} value={currentAge} onChange={(e) => setCurrentAge(+e.target.value)}
+                      aria-labelledby="calc-age-label" aria-valuetext={`${currentAge} years`}
                       className="w-full accent-secondary" />
                   </div>
                   <div>
                     <div className="flex justify-between text-body-sm text-on-surface-variant mb-2">
-                      <span>Retirement Age</span><span className="font-semibold text-primary">{retireAge} years</span>
+                      <span id="calc-retire-label">Retirement Age</span><span className="font-semibold text-primary">{retireAge} years</span>
                     </div>
                     <input type="range" min={50} max={65} value={retireAge} onChange={(e) => setRetireAge(+e.target.value)}
+                      aria-labelledby="calc-retire-label" aria-valuetext={`${retireAge} years`}
                       className="w-full accent-secondary" />
                   </div>
                   <div>
                     <div className="flex justify-between text-body-sm text-on-surface-variant mb-2">
-                      <span>Monthly Expenses Today</span><span className="font-semibold text-primary">{fmt(monthlyExpense)}</span>
+                      <span id="calc-expense-label">Monthly Expenses Today</span><span className="font-semibold text-primary">{fmt(monthlyExpense)}</span>
                     </div>
                     <input type="range" min={20000} max={300000} step={5000} value={monthlyExpense} onChange={(e) => setMonthlyExpense(+e.target.value)}
+                      aria-labelledby="calc-expense-label" aria-valuetext={fmt(monthlyExpense) + " per month"}
                       className="w-full accent-secondary" />
                   </div>
                   <div>
                     <div className="flex justify-between text-body-sm text-on-surface-variant mb-2">
-                      <span>Current Retirement Corpus</span><span className="font-semibold text-primary">{fmt(currentCorpus)}</span>
+                      <span id="calc-corpus-label">Current Retirement Corpus</span><span className="font-semibold text-primary">{fmt(currentCorpus)}</span>
                     </div>
                     <input type="range" min={0} max={50000000} step={500000} value={currentCorpus} onChange={(e) => setCurrentCorpus(+e.target.value)}
+                      aria-labelledby="calc-corpus-label" aria-valuetext={fmt(currentCorpus)}
                       className="w-full accent-secondary" />
                   </div>
                   <div className="text-regulatory-legal text-on-surface-variant pt-2">
-                    Assumptions: 6% inflation, 11% pre-retirement returns, 7% post-retirement returns, 30-year retirement.
+                    Assumptions: {inflation}% inflation, {preRetReturn}% pre-retirement returns,{" "}
+                    {postRetReturn}% post-retirement returns, {yearsInRetirement}-year retirement.
+                    These are the same rates every Indian retirement planner publishes; they are
+                    assumptions, not forecasts of any scheme. The output is an illustration, not
+                    advice.
                   </div>
                 </div>
               </div>
@@ -175,7 +185,7 @@ export default function Retirement() {
             <SectionHeader
               eyebrow="Post-Retirement Income"
               title={<>Diversified <em className="text-secondary not-italic">income streams</em></>}
-              subtitle="Don't rely on a single source. We build laddered income from multiple instruments."
+              subtitle="A withdrawal plan drawn from one instrument fails on one bad decade. Several of the streams below sit outside mutual funds; we size the fund-based part of the plan and tell you plainly which streams need a bank, an annuity provider, or a property instead."
               align="center"
             />
           </Reveal>
@@ -196,18 +206,32 @@ export default function Retirement() {
         <div className="max-w-3xl mx-auto px-gutter-mobile md:px-gutter text-center">
           <Reveal>
             <h2 className="font-headline text-headline-lg md:text-headline-xl text-primary mb-4">
-              Is your retirement on track?
+              Check the number before you commit the money.
             </h2>
             <p className="text-body-lg text-on-surface-variant mb-8">
-              Get a personalized retirement roadmap with specific, actionable steps.
+              Bring the output of the calculator to the call and we will test it against your
+              actual statements and withdrawal timeline.
             </p>
             <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-on-primary font-semibold rounded-full hover:bg-primary-fixed-dim transition-all hover:shadow-xl">
               <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-              Get Your Roadmap
+              {cta.primary}
             </Link>
+            <p className="text-regulatory-legal text-on-surface-variant mt-6">
+              {regulatory.disclaimer}
+            </p>
           </Reveal>
         </div>
       </section>
+
+      <JsonLd
+        path="/retirement"
+        breadcrumb="Retirement Planning"
+        service={{
+          name: "Retirement corpus and withdrawal planning",
+          description:
+            "Corpus and systematic withdrawal planning for Indian households and NRIs: inflation-adjusted expense projection, required corpus, monthly SIP sizing, healthcare buffers, and a withdrawal sequence drawn from mutual fund SWPs.",
+        }}
+      />
     </div>
   );
 }

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative long-term compounding curve for a systematic investment plan</title>
+  <desc id="desc">A stylised upward curve on a navy field with gold accents, drawn to represent disciplined monthly investing over time. It is an illustration, not a performance projection or return forecast.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1f3a"/>
+      <stop offset="60%" stop-color="#000615"/>
+      <stop offset="100%" stop-color="#00203d"/>
+    </linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffc974" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#ffc974" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b5c7ea"/>
+      <stop offset="100%" stop-color="#ffc974"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <g stroke="#b5c7ea" stroke-opacity="0.16" stroke-width="1">
+    <line x1="72" y1="120" x2="748" y2="120"/>
+    <line x1="72" y1="220" x2="748" y2="220"/>
+    <line x1="72" y1="320" x2="748" y2="320"/>
+    <line x1="72" y1="420" x2="748" y2="420"/>
+    <line x1="72" y1="500" x2="748" y2="500"/>
+    <line x1="72" y1="120" x2="72" y2="500"/>
+    <line x1="241" y1="120" x2="241" y2="500"/>
+    <line x1="410" y1="120" x2="410" y2="500"/>
+    <line x1="579" y1="120" x2="579" y2="500"/>
+    <line x1="748" y1="120" x2="748" y2="500"/>
+  </g>
+
+  <path d="M72 500 L72 470 C 180 460 250 436 330 396 C 420 350 470 300 560 236 C 630 186 690 156 748 138 L748 500 Z" fill="url(#area)"/>
+  <path d="M72 470 C 180 460 250 436 330 396 C 420 350 470 300 560 236 C 630 186 690 156 748 138"
+        fill="none" stroke="url(#line)" stroke-width="4" stroke-linecap="round"/>
+
+  <g fill="#ffc974">
+    <circle cx="330" cy="396" r="7"/>
+    <circle cx="560" cy="236" r="7"/>
+    <circle cx="748" cy="138" r="8"/>
+  </g>
+
+  <g font-family="Inter, system-ui, sans-serif" fill="#b5c7ea" font-size="19" letter-spacing="0.6">
+    <text x="72" y="538">Year 1</text>
+    <text x="241" y="538">Year 7</text>
+    <text x="410" y="538">Year 14</text>
+    <text x="579" y="538">Year 21</text>
+    <text x="712" y="538">Year 28</text>
+  </g>
+
+  <g font-family="Inter, system-ui, sans-serif" fill="#fcf9f2">
+    <text x="104" y="92" font-size="21" font-weight="600">Illustrative SIP compounding</text>
+    <text x="104" y="120" font-size="16" fill="#b5c7ea">Not a projection of returns</text>
+  </g>
+</svg>

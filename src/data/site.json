@@ -1,0 +1,106 @@
+{
+  "siteUrl": "https://www.shahfin.com",
+  "org": {
+    "name": "Shah Financial",
+    "legalName": "Shah Financial, Hyderabad",
+    "role": "AMFI-registered mutual fund distributor and financial planning practice",
+    "shortDescription": "AMFI-registered mutual fund distributor and financial planning practice in Begumpet, Hyderabad.",
+    "description": "Shah Financial is an AMFI-registered mutual fund distributor and financial planning practice in Begumpet, Hyderabad, serving NRIs and families in India.",
+    "email": "contact@shahfin.com",
+    "phoneDisplay": "+91 98492 80280",
+    "phoneTel": "+919849280280",
+    "whatsapp": "919849280280",
+    "hours": "Mon\u2013Sat, 9:00\u201319:00 IST",
+    "hoursNriNote": "Special early-morning and late-evening slots for NRIs",
+    "address": {
+      "streetAddress": "Metro Pillar No C1315, 4th Floor, Durga Towers, Begumpet",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "postalCode": "500016",
+      "addressCountry": "IN",
+      "display": "Metro Pillar No C1315, 4th Floor, Durga Towers, Begumpet, Hyderabad, Telangana 500016"
+    },
+    "areaServed": ["IN", "US", "AE", "GB", "SG", "AU"],
+    "knowsAbout": ["Mutual Funds", "NRI Investing", "Retirement Planning", "Wealth Planning", "FEMA"]
+  },
+  "cta": {
+    "primary": "Book Consultation",
+    "submit": "Book my free 20-minute call",
+    "secondary": "Explore Services"
+  },
+  "regulatory": {
+    "arn1": "[ARN 1]",
+    "arn2": "[ARN 2]",
+    "euin": "[EUIN]",
+    "arnValidity": "[validity]",
+    "grievanceOfficer": "Grievance Officer",
+    "grievanceEmail": "grievance@shahfin.com",
+    "grievanceTimeline": "[grievance resolution timeline]",
+    "disclaimer": "Mutual fund investments are subject to market risks. Read all scheme-related documents carefully.",
+    "consent": "I agree to be contacted by Shah Financial. We adhere to institutional confidentiality; your details are never shared with any third party.",
+    "responseSla": "[4 working hours]",
+    "compensation": "We receive regulatory trail commissions directly from Asset Management Companies (AMCs) out of the scheme's Total Expense Ratio (TER), as governed by SEBI rules. We never invoice clients for upfront onboarding reviews, introductory consultations, or portfolio health checks. There are zero advisory retainers or hidden billing fees."
+  },
+  "placeholders": {
+    "aum": "[AUM]",
+    "familiesServed": "[N families]",
+    "arnNote": "ARN-[ARN 1], ARN-[ARN 2] and EUIN are filled from the AMFI registry before launch.",
+    "note": "Values in brackets are filled from the AMFI registry and our own books before launch. They are not estimates."
+  },
+  "deskCoverage": [
+    { "region": "Dubai / GCC (GST)", "time": "11:30 AM \u2013 8:30 PM IST" },
+    { "region": "London / UK (GMT/BST)", "time": "7:30 AM \u2013 4:30 PM IST" },
+    { "region": "US East / West (EST/PST)", "time": "Late-evening IST calls" },
+    { "region": "Singapore (SGT) / Australia", "time": "Morning IST sessions" }
+  ],
+  "pages": {
+    "/": {
+      "file": "index.html",
+      "title": "Shah Financial | AMFI MF Distributor, Begumpet Hyderabad",
+      "description": "AMFI-registered mutual fund distributor in Begumpet, Hyderabad, helping families and NRIs invest with fee transparency and zero product bias.",
+      "breadcrumb": "Home"
+    },
+    "/wealth-planning": {
+      "file": "wealth-planning/index.html",
+      "title": "Wealth Planning & Portfolio Health Check | Shah Financial",
+      "description": "CAS-based portfolio health check and mutual fund review in Hyderabad. Objective evaluation, transparent fee disclosure, no lock-ins, no product bias.",
+      "breadcrumb": "Wealth Planning"
+    },
+    "/nri-investing": {
+      "file": "nri-investing/index.html",
+      "title": "NRI Mutual Fund Investing in India | Shah Financial",
+      "description": "NRI mutual fund investing in India: NRE/NRO guidance, FEMA and repatriation rules, TDS on funds and CAS reviews, timed for US, Gulf and UK slots.",
+      "breadcrumb": "NRI Investing"
+    },
+    "/retirement": {
+      "file": "retirement/index.html",
+      "title": "Retirement Planning & Corpus Calculator | Shah Financial",
+      "description": "Retirement planning for Hyderabad families and NRIs: corpus and SWP calculators, inflation-aware income streams, healthcare buffers, withdrawal strategy.",
+      "breadcrumb": "Retirement Planning"
+    },
+    "/resources": {
+      "file": "resources/index.html",
+      "title": "Resources & Knowledge Hub | Shah Financial",
+      "description": "Free tools and answers for Indian investors and NRIs: retirement calculator, CAS portfolio review, regulatory charter and FAQs from Begumpet, Hyderabad.",
+      "breadcrumb": "Resources"
+    },
+    "/about": {
+      "file": "about/index.html",
+      "title": "About Us & Regulatory Charter | Shah Financial",
+      "description": "Shah Financial is an AMFI-registered distributor in Begumpet, Hyderabad. Read our regulatory charter, how we are paid, ownership rules and FAQs.",
+      "breadcrumb": "About Us"
+    },
+    "/contact": {
+      "file": "contact/index.html",
+      "title": "Contact & Book a Consultation | Shah Financial",
+      "description": "Book a free consultation at Durga Towers, Begumpet, Hyderabad. Call +91 98492 80280, message on WhatsApp or send an enquiry. NRI time slots available.",
+      "breadcrumb": "Contact"
+    },
+    "404": {
+      "file": "404.html",
+      "title": "Page Not Found | Shah Financial",
+      "description": "That page does not exist at Shah Financial. Return to the home page or reach the Begumpet advisory desk at +91 98492 80280.",
+      "breadcrumb": "Page Not Found"
+    }
+  }
+}

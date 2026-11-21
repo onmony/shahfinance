@@ -89,3 +89,36 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Details/summary: hide the legacy WebKit marker so the custom icon is the only affordance. */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Accessible keyboard focus on the navy/ivory surfaces. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid #7e5708;
+  outline-offset: 2px;
+}
+
+/* Reveals must never hide content from a reader whose browser will not run the script. */
+@media (prefers-reduced-motion: reduce) {
+  .section-fade {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .card-lift:hover {
+    transform: none;
+  }
+}
+@media (scripting: none) {
+  .section-fade {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { canonicalPath } from "@/data/facts";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -54,11 +55,12 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
-              const active = location.pathname === link.path;
+              const active = canonicalPath(location.pathname) === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
+                  aria-current={active ? "page" : undefined}
                   className={`px-3 py-2 text-body-sm rounded-lg transition-all duration-200 link-underline ${
                     active
                       ? "text-primary font-semibold"
@@ -100,11 +102,12 @@ export default function Navbar() {
         <div className="lg:hidden bg-surface border-t border-outline-variant/20 animate-fade-down">
           <nav className="max-w-page mx-auto px-gutter-mobile py-4 flex flex-col gap-1">
             {navLinks.map((link) => {
-              const active = location.pathname === link.path;
+              const active = canonicalPath(location.pathname) === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
+                  aria-current={active ? "page" : undefined}
                   className={`px-4 py-3 rounded-lg text-body-md transition-colors ${
                     active ? "bg-primary-fixed text-primary font-semibold" : "text-on-surface hover:bg-surface-container-low"
                   }`}
